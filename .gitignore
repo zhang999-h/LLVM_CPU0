@@ -7,5 +7,3 @@ LLVM/built
 
 !./LLVM/llvm/cmake/config-ix.cmake
 
-src/*
-!src/t/t
