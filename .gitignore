@@ -7,3 +7,5 @@ LLVM/built
 
 !./LLVM/llvm/cmake/config-ix.cmake
 
+t.c
+t
