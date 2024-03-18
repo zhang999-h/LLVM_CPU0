@@ -1296,7 +1296,7 @@ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
   bool IsLittleEndian = ELFT::TargetEndianness == llvm::endianness::little;
   switch (EF.getHeader().e_machine) {
   case ELF::EM_CPU0:  // llvm-objdump -t -r
-    switch (EF.getHeader()->e_ident[ELF::EI_CLASS]) {
+    switch (EF.getHeader().e_ident[ELF::EI_CLASS]) {
       case ELF::ELFCLASS32:
         return IsLittleEndian ? Triple::cpu0el : Triple::cpu0;
       default:
