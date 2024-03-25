@@ -29,7 +29,7 @@ namespace {
 
 const ArrayRef<MCPhysReg> Cpu0ABIInfo::GetByValArgRegs() const {
   if (IsO32())
-    return ArrayRef(O32IntRegs);
+    return makeArrayRef(O32IntRegs);
   if (IsS32())
     return makeArrayRef(S32IntRegs);
   llvm_unreachable("Unhandled ABI");
