@@ -33,13 +33,13 @@ using namespace llvm;
 #include "Cpu0GenInstrInfo.inc"
 
 #define GET_SUBTARGETINFO_MC_DESC
-//#include "Cpu0GenSubtargetInfo.inc"
-//不注释会报错：zero-size array ‘llvm::Cpu0SubTypeKV’
+#include "Cpu0GenSubtargetInfo.inc"
+//CH2不注释会报错：zero-size array ‘llvm::Cpu0SubTypeKV’
 #define GET_REGINFO_MC_DESC
 #include "Cpu0GenRegisterInfo.inc"
 
 //@2 {
-extern "C" void LLVMInitializeCpu0TargetMC() {
+extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeCpu0TargetMC() {
 
 }
 //@2 }

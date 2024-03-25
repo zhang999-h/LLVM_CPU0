@@ -14,7 +14,6 @@
 #ifndef LLVM_LIB_TARGET_CPU0_CPU0TARGETMACHINE_H
 #define LLVM_LIB_TARGET_CPU0_CPU0TARGETMACHINE_H
 
-#include "Cpu0Config.h"
 
 #include "MCTargetDesc/Cpu0ABIInfo.h"
 #include "Cpu0Subtarget.h"
@@ -23,6 +22,9 @@
 #include "llvm/CodeGen/TargetFrameLowering.h"
 #include "llvm/Support/CodeGen.h"
 #include "llvm/Target/TargetMachine.h"
+#include <memory>
+#include <optional>
+
 
 namespace llvm {
 class formatted_raw_ostream;
@@ -39,7 +41,7 @@ class Cpu0TargetMachine : public LLVMTargetMachine {
 public:
   Cpu0TargetMachine(const Target &T, const Triple &TT, StringRef CPU,
                     StringRef FS, const TargetOptions &Options,
-                    Optional<Reloc::Model> RM, Optional<CodeModel::Model> CM,
+                    std::optional<Reloc::Model> RM, std::optional<CodeModel::Model> CM,
                     CodeGenOpt::Level OL, bool JIT, bool isLittle);
   ~Cpu0TargetMachine() override;
 
@@ -66,7 +68,7 @@ class Cpu0ebTargetMachine : public Cpu0TargetMachine {
 public:
   Cpu0ebTargetMachine(const Target &T, const Triple &TT, StringRef CPU,
                       StringRef FS, const TargetOptions &Options,
-                      Optional<Reloc::Model> RM, Optional<CodeModel::Model> CM,
+                      std::optional<Reloc::Model> RM, std::optional<CodeModel::Model> CM,
                       CodeGenOpt::Level OL, bool JIT);
 };
 
@@ -77,10 +79,13 @@ class Cpu0elTargetMachine : public Cpu0TargetMachine {
 public:
   Cpu0elTargetMachine(const Target &T, const Triple &TT, StringRef CPU,
                       StringRef FS, const TargetOptions &Options,
-                      Optional<Reloc::Model> RM, Optional<CodeModel::Model> CM,
+                      std::optional<Reloc::Model> RM, std::optional<CodeModel::Model> CM,
                       CodeGenOpt::Level OL, bool JIT);
 };
 } // End llvm namespace
+
+
+
 
 #endif
 

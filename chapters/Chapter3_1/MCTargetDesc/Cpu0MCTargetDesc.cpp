@@ -23,7 +23,8 @@
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/FormattedStream.h"
-#include "llvm/Support/TargetRegistry.h"
+#include "llvm/MC/TargetRegistry.h"
+#include "llvm/TargetParser/Triple.h"
 
 using namespace llvm;
 
@@ -31,13 +32,13 @@ using namespace llvm;
 #include "Cpu0GenInstrInfo.inc"
 
 #define GET_SUBTARGETINFO_MC_DESC
-#include "Cpu0GenSubtargetInfo.inc"
+ #include "Cpu0GenSubtargetInfo.inc"
 
 #define GET_REGINFO_MC_DESC
 #include "Cpu0GenRegisterInfo.inc"
 
 //@2 {
-extern "C" void LLVMInitializeCpu0TargetMC() {
+extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeCpu0TargetMC() {
 
 }
 //@2 }

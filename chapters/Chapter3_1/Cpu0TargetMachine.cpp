@@ -13,28 +13,29 @@
 
 #include "Cpu0TargetMachine.h"
 #include "Cpu0.h"
-
 #include "Cpu0Subtarget.h"
 #include "Cpu0TargetObjectFile.h"
+#include "TargetInfo/Cpu0TargetInfo.h"
 #include "llvm/IR/Attributes.h"
 #include "llvm/IR/Function.h"
 #include "llvm/Support/CodeGen.h"
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/CodeGen/TargetPassConfig.h"
-#include "llvm/Support/TargetRegistry.h"
+#include "llvm/MC/TargetRegistry.h"
 #include "llvm/Target/TargetOptions.h"
 
 using namespace llvm;
 
 #define DEBUG_TYPE "cpu0"
 
-extern "C" void LLVMInitializeCpu0Target() {
+extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeCpu0Target() {
   // Register the target.
   //- Big endian Target Machine
-  RegisterTargetMachine<Cpu0ebTargetMachine> X(TheCpu0Target);
+  RegisterTargetMachine<Cpu0ebTargetMachine> X(getTheCpu0Target());
   //- Little endian Target Machine
-  RegisterTargetMachine<Cpu0elTargetMachine> Y(TheCpu0elTarget);
+  RegisterTargetMachine<Cpu0elTargetMachine> Y(getTheCpu0elTarget());
 }
+
 
 static std::string computeDataLayout(const Triple &TT, StringRef CPU,
                                      const TargetOptions &Options,
@@ -63,8 +64,8 @@ static std::string computeDataLayout(const Triple &TT, StringRef CPU,
 }
 
 static Reloc::Model getEffectiveRelocModel(bool JIT,
-                                           Optional<Reloc::Model> RM) {
-  if (!RM.hasValue() || JIT)
+                                           std::optional<Reloc::Model> RM) {
+  if (!RM || JIT)
     return Reloc::Static;
   return *RM;
 }
@@ -79,11 +80,11 @@ static Reloc::Model getEffectiveRelocModel(bool JIT,
 Cpu0TargetMachine::Cpu0TargetMachine(const Target &T, const Triple &TT,
                                      StringRef CPU, StringRef FS,
                                      const TargetOptions &Options,
-                                     Optional<Reloc::Model> RM,
-                                     Optional<CodeModel::Model> CM,
+                                     std::optional<Reloc::Model> RM,
+                                     std::optional<CodeModel::Model> CM,
                                      CodeGenOpt::Level OL, bool JIT,
                                      bool isLittle)
-  //- Default is big endian
+//- Default is big endian
     : LLVMTargetMachine(T, computeDataLayout(TT, CPU, Options, isLittle), TT,
                         CPU, FS, Options, getEffectiveRelocModel(JIT, RM),
                         getEffectiveCodeModel(CM, CodeModel::Small), OL),
@@ -102,8 +103,8 @@ void Cpu0ebTargetMachine::anchor() { }
 Cpu0ebTargetMachine::Cpu0ebTargetMachine(const Target &T, const Triple &TT,
                                          StringRef CPU, StringRef FS,
                                          const TargetOptions &Options,
-                                         Optional<Reloc::Model> RM,
-                                         Optional<CodeModel::Model> CM,
+                                         std::optional<Reloc::Model> RM,
+                                         std::optional<CodeModel::Model> CM,
                                          CodeGenOpt::Level OL, bool JIT)
     : Cpu0TargetMachine(T, TT, CPU, FS, Options, RM, CM, OL, JIT, false) {}
 
@@ -112,8 +113,8 @@ void Cpu0elTargetMachine::anchor() { }
 Cpu0elTargetMachine::Cpu0elTargetMachine(const Target &T, const Triple &TT,
                                          StringRef CPU, StringRef FS,
                                          const TargetOptions &Options,
-                                         Optional<Reloc::Model> RM,
-                                         Optional<CodeModel::Model> CM,
+                                         std::optional<Reloc::Model> RM,
+                                         std::optional<CodeModel::Model> CM,
                                          CodeGenOpt::Level OL, bool JIT)
     : Cpu0TargetMachine(T, TT, CPU, FS, Options, RM, CM, OL, JIT, true) {}
 
@@ -129,7 +130,7 @@ Cpu0TargetMachine::getSubtargetImpl(const Function &F) const {
     // function that reside in TargetOptions.
     resetTargetOptions(F);
     I = std::make_unique<Cpu0Subtarget>(TargetTriple, CPU, FS, isLittle,
-                                         *this);
+                                        *this);
   }
   return I.get();
 }
@@ -137,22 +138,21 @@ Cpu0TargetMachine::getSubtargetImpl(const Function &F) const {
 namespace {
 //@Cpu0PassConfig {
 /// Cpu0 Code Generator Pass Configuration Options.
-class Cpu0PassConfig : public TargetPassConfig {
-public:
-  Cpu0PassConfig(Cpu0TargetMachine &TM, PassManagerBase &PM)
-    : TargetPassConfig(TM, PM) {}
+  class Cpu0PassConfig : public TargetPassConfig {
+  public:
+    Cpu0PassConfig(Cpu0TargetMachine &TM, PassManagerBase &PM)
+        : TargetPassConfig(TM, PM) {}
 
-  Cpu0TargetMachine &getCpu0TargetMachine() const {
-    return getTM<Cpu0TargetMachine>();
-  }
+    Cpu0TargetMachine &getCpu0TargetMachine() const {
+      return getTM<Cpu0TargetMachine>();
+    }
 
-  const Cpu0Subtarget &getCpu0Subtarget() const {
-    return *getCpu0TargetMachine().getSubtargetImpl();
-  }
-};
+    const Cpu0Subtarget &getCpu0Subtarget() const {
+      return *getCpu0TargetMachine().getSubtargetImpl();
+    }
+  };
 } // namespace
 
 TargetPassConfig *Cpu0TargetMachine::createPassConfig(PassManagerBase &PM) {
   return new Cpu0PassConfig(*this, PM);
 }
-

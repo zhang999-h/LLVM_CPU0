@@ -22,9 +22,9 @@
 using namespace llvm;
 
 static cl::opt<unsigned>
-    SSThreshold("cpu0-ssection-threshold", cl::Hidden,
-                cl::desc("Small data and bss section threshold size (default=8)"),
-                cl::init(8));
+SSThreshold("cpu0-ssection-threshold", cl::Hidden,
+            cl::desc("Small data and bss section threshold size (default=8)"),
+            cl::init(8));
 
 void Cpu0TargetObjectFile::Initialize(MCContext &Ctx, const TargetMachine &TM){
   TargetLoweringObjectFileELF::Initialize(Ctx, TM);
@@ -37,4 +37,3 @@ void Cpu0TargetObjectFile::Initialize(MCContext &Ctx, const TargetMachine &TM){
                                                ELF::SHF_WRITE | ELF::SHF_ALLOC);
   this->TM = &static_cast<const Cpu0TargetMachine &>(TM);
 }
-

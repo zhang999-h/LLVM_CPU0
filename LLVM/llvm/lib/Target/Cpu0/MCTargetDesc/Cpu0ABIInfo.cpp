@@ -14,7 +14,7 @@
 #include "llvm/ADT/StringSwitch.h"
 #include "llvm/MC/MCTargetOptions.h"
 #include "llvm/Support/CommandLine.h"
-
+#include "llvm/ADT/ArrayRef.h"
 using namespace llvm;
 
 static cl::opt<bool>
@@ -31,15 +31,15 @@ const ArrayRef<MCPhysReg> Cpu0ABIInfo::GetByValArgRegs() const {
   if (IsO32())
     return ArrayRef(O32IntRegs);
   if (IsS32())
-    return makeArrayRef(S32IntRegs);
+    return ArrayRef(S32IntRegs);
   llvm_unreachable("Unhandled ABI");
 }
 
 const ArrayRef<MCPhysReg> Cpu0ABIInfo::GetVarArgRegs() const {
   if (IsO32())
-    return makeArrayRef(O32IntRegs);
+    return ArrayRef(O32IntRegs);
   if (IsS32())
-    return makeArrayRef(S32IntRegs);
+    return ArrayRef(S32IntRegs);
   llvm_unreachable("Unhandled ABI");
 }
 

@@ -82,3 +82,6 @@ LLVM/llvm/include/module.modulemap.build
 t
 *.bc
 
+build/
+test/
+.idea/*

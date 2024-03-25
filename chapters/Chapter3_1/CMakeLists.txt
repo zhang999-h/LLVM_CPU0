@@ -18,35 +18,36 @@ add_public_tablegen_target(Cpu0CommonTableGen)
 
 # Cpu0CodeGen should match with LLVMBuild.txt Cpu0CodeGen
 add_llvm_target(Cpu0CodeGen
-  Cpu0FrameLowering.cpp
-  Cpu0InstrInfo.cpp
-  Cpu0ISelLowering.cpp
-  Cpu0MachineFunction.cpp
-  Cpu0RegisterInfo.cpp
-  Cpu0SEFrameLowering.cpp
-  Cpu0SEInstrInfo.cpp
-  Cpu0SEISelLowering.cpp
-  Cpu0SERegisterInfo.cpp
-  Cpu0Subtarget.cpp
-  Cpu0TargetObjectFile.cpp
-  Cpu0TargetMachine.cpp
+        Cpu0FrameLowering.cpp
+        Cpu0InstrInfo.cpp
+        Cpu0ISelLowering.cpp
+        Cpu0MachineFunction.cpp
+        Cpu0RegisterInfo.cpp
+        Cpu0SEFrameLowering.cpp
+        Cpu0SEInstrInfo.cpp
+        Cpu0SEISelLowering.cpp
+        Cpu0SERegisterInfo.cpp
+        Cpu0Subtarget.cpp
+        Cpu0TargetObjectFile.cpp
+        Cpu0TargetMachine.cpp
 
-  LINK_COMPONENTS
-  Analysis
-  AsmPrinter
-  CodeGen
-  Core
-  MC
-  Cpu0Desc
-  Cpu0Info
-  SelectionDAG
-  Support
-  Target
-  GlobalISel
+        LINK_COMPONENTS
+        Analysis
+        AsmPrinter
+        CodeGen
+        Core
+        MC
+        Cpu0Desc
+        Cpu0Info
+        SelectionDAG
+        Support
+        Target
+        GlobalISel
+        TargetParser
 
-  ADD_TO_COMPONENT
-  Cpu0
-  )
+        ADD_TO_COMPONENT
+        Cpu0
+)
 
 # Should match with "subdirectories =  MCTargetDesc TargetInfo" in LLVMBuild.txt
 add_subdirectory(TargetInfo)
