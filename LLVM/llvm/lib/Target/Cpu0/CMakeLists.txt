@@ -37,6 +37,8 @@ add_llvm_target(Cpu0CodeGen
         Cpu0Subtarget.cpp
         Cpu0TargetObjectFile.cpp
         Cpu0TargetMachine.cpp
+        Cpu0ISelDAGToDAG.cpp
+        Cpu0SEISelDAGToDAG.cpp
 
         LINK_COMPONENTS
         Cpu0AsmPrinter
@@ -52,6 +54,7 @@ add_llvm_target(Cpu0CodeGen
         Target
         GlobalISel
         TargetParser
+        #CodeGenTypes
 
         ADD_TO_COMPONENT
         Cpu0
