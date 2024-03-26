@@ -70,7 +70,7 @@ bool Cpu0SEDAGToDAGISel::trySelect(SDNode *Node) {
 }
 
 FunctionPass *llvm::createCpu0SEISelDag(Cpu0TargetMachine &TM,
-                                        CodeGenOptLevel OptLevel) {
+                                        CodeGenOpt::Level OptLevel) {
   return new Cpu0SEDAGToDAGISel(TM, OptLevel);
 }
 

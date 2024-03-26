@@ -41,7 +41,7 @@ namespace llvm {
   };
 
   FunctionPass *createCpu0SEISelDag(Cpu0TargetMachine &TM,
-                                    CodeGenOptLevel OptLevel);
+                                    CodeGenOpt::Level OptLevel);
 
 }
 

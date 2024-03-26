@@ -24,6 +24,7 @@
 #include "llvm/CodeGen/TargetPassConfig.h"
 #include "llvm/MC/TargetRegistry.h"
 #include "llvm/Target/TargetOptions.h"
+#include "Cpu0MachineFunction.h"
 
 using namespace llvm;
 
@@ -165,3 +166,11 @@ bool Cpu0PassConfig::addInstSelector() {
   addPass(createCpu0SEISelDag(getCpu0TargetMachine(), getOptLevel()));
   return false;
 }
+
+MachineFunctionInfo *Cpu0TargetMachine::createMachineFunctionInfo(
+    BumpPtrAllocator &Allocator, const Function &F,
+    const TargetSubtargetInfo *STI) const {
+      //create在Cpu0FunctionInfo的基类MachineFunctionInfo是static的
+  return Cpu0FunctionInfo::create<Cpu0FunctionInfo>(Allocator, F, STI);
+}
+

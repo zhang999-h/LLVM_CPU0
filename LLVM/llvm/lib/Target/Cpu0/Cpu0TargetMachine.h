@@ -59,6 +59,10 @@ public:
   }
   bool isLittleEndian() const { return isLittle; }
   const Cpu0ABIInfo &getABI() const { return ABI; }
+    MachineFunctionInfo *
+  createMachineFunctionInfo(BumpPtrAllocator &Allocator, const Function &F,
+                            const TargetSubtargetInfo *STI) const override;
+
 };
 
 /// Cpu0ebTargetMachine - Cpu032 big endian target machine.
